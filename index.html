@@ -3,82 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MyPocket</title>
+  <title>MyPocket - Kharcha Tracker</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2563eb">
+  <meta name="description" content="Students ka apna roz ka kharcha tracker">
 
   <style>
-    body { font-family: system-ui, sans-serif; }
+    body { font-family: system-ui, -apple-system, sans-serif; }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
 
   <div class="max-w-xl mx-auto bg-white shadow-2xl min-h-screen">
     <!-- Header -->
-    <div class="bg-blue-600 text-white p-5 text-center">
-      <h1 class="text-3xl font-bold">💰 MyPocket</h1>
-      <p class="text-blue-100">Student Kharcha Tracker</p>
+    <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 text-center">
+      <h1 class="text-4xl font-bold">💰 MyPocket</h1>
+      <p class="text-blue-100 mt-1">Apna Roz ka Kharcha Track Karo</p>
     </div>
 
     <!-- Dashboard -->
-    <div class="p-4 grid grid-cols-3 gap-3">
-      <div class="bg-blue-50 p-4 rounded-2xl text-center">
+    <div class="p-5 grid grid-cols-3 gap-3">
+      <div class="bg-blue-50 p-4 rounded-3xl text-center shadow-sm">
         <p class="text-sm text-gray-600">Aaj Ka</p>
-        <p id="todayTotal" class="text-2xl font-bold text-blue-600">₹0</p>
+        <p id="todayTotal" class="text-3xl font-bold text-blue-600">₹0</p>
       </div>
-      <div class="bg-green-50 p-4 rounded-2xl text-center">
+      <div class="bg-green-50 p-4 rounded-3xl text-center shadow-sm">
         <p class="text-sm text-gray-600">Is Month</p>
-        <p id="monthTotal" class="text-2xl font-bold text-green-600">₹0</p>
+        <p id="monthTotal" class="text-3xl font-bold text-green-600">₹0</p>
       </div>
-      <div class="bg-orange-50 p-4 rounded-2xl text-center">
+      <div class="bg-orange-50 p-4 rounded-3xl text-center shadow-sm">
         <p class="text-sm text-gray-600">Baki</p>
-        <p id="remaining" class="text-2xl font-bold text-orange-600">₹1000</p>
+        <p id="remaining" class="text-3xl font-bold text-orange-600">₹1000</p>
       </div>
     </div>
 
-    <!-- Pocket Money Set -->
-    <div class="px-4 pb-2">
-      <button onclick="setPocketMoney()" 
-              class="text-blue-600 text-sm underline">Pocket Money Change Karo</button>
+    <div class="px-5">
+      <button onclick="setPocketMoney()" class="text-blue-600 text-sm underline mb-4">Pocket Money Change Karo</button>
     </div>
 
     <!-- Add Expense -->
-    <div class="p-4">
-      <h2 class="font-semibold mb-3">➕ Naya Kharcha</h2>
+    <div class="px-5">
+      <h2 class="font-semibold mb-4 text-lg">➕ Naya Kharcha Add Karo</h2>
       <div class="space-y-4">
-        <input id="amount" type="number" placeholder="Amount ₹" class="w-full p-4 border rounded-2xl text-lg">
-        <select id="category" class="w-full p-4 border rounded-2xl text-lg">
+        <input id="amount" type="number" placeholder="Amount ₹" class="w-full p-4 border rounded-3xl text-lg focus:outline-none focus:border-blue-500">
+        
+        <select id="category" class="w-full p-4 border rounded-3xl text-lg focus:outline-none focus:border-blue-500">
           <option value="Tiffin">🍱 Tiffin / Food</option>
           <option value="Rickshaw">🛺 Rickshaw / Auto</option>
-          <option value="Stationery">📚 Stationery</option>
-          <option value="Snacks">🥤 Snacks / Drink</option>
-          <option value="Recharge">📱 Recharge</option>
+          <option value="Stationery">📚 Stationery / Copy</option>
+          <option value="Snacks">🥤 Snacks / Cold Drink</option>
+          <option value="Recharge">📱 Mobile Recharge</option>
           <option value="Other">🛒 Other</option>
         </select>
-        <input id="note" type="text" placeholder="Note likho (optional)" class="w-full p-4 border rounded-2xl">
+
+        <input id="note" type="text" placeholder="Note (optional)" class="w-full p-4 border rounded-3xl">
         
-        <button onclick="addExpense()" class="w-full bg-blue-600 text-white py-4 rounded-2xl text-xl font-semibold">
+        <button onclick="addExpense()" 
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-3xl text-xl font-semibold">
           Add Karo
         </button>
       </div>
     </div>
 
-    <!-- Chart + Buttons -->
-    <div class="p-4">
-      <div class="flex justify-between items-center mb-3">
-        <h2 class="font-semibold">📊 Category Wise</h2>
-        <button onclick="toggleDarkMode()" class="text-xl">🌙</button>
+    <!-- Chart -->
+    <div class="p-5">
+      <div class="flex justify-between mb-3">
+        <h2 class="font-semibold">📊 Category Wise Kharcha</h2>
+        <button onclick="toggleDarkMode()" class="text-2xl">🌗</button>
       </div>
-      <canvas id="myChart" height="220"></canvas>
+      <canvas id="myChart" height="230"></canvas>
     </div>
 
     <!-- History -->
-    <div class="p-4">
-      <div class="flex justify-between">
-        <h2 class="font-semibold mb-3">📋 Recent Kharcha</h2>
-        <button onclick="clearAllData()" class="text-red-500 text-sm">Clear All</button>
+    <div class="p-5 pt-0">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="font-semibold">📋 Recent Kharcha</h2>
+        <button onclick="clearAllData()" class="text-red-500 text-sm font-medium">Clear All</button>
       </div>
       <div id="history" class="space-y-3"></div>
     </div>
@@ -99,9 +101,16 @@
       const category = document.getElementById('category').value;
       const note = document.getElementById('note').value || '';
 
-      if (!amount) return alert("Amount daalo!");
+      if (!amount || amount <= 0) return alert("Amount daalo bhai!");
 
-      expenses.unshift({ id: Date.now(), date: new Date().toISOString().split('T')[0], amount, category, note });
+      expenses.unshift({
+        id: Date.now(),
+        date: new Date().toISOString().split('T')[0],
+        amount: amount,
+        category: category,
+        note: note
+      });
+
       document.getElementById('amount').value = '';
       document.getElementById('note').value = '';
       saveData();
@@ -115,15 +124,15 @@
     }
 
     function setPocketMoney() {
-      const newAmount = prompt("Naya Pocket Money Amount daalo (₹):", pocketMoney);
-      if (newAmount) {
-        pocketMoney = parseInt(newAmount);
+      const newAmount = prompt("Naya Pocket Money Amount daalo ₹", pocketMoney);
+      if (newAmount !== null) {
+        pocketMoney = parseInt(newAmount) || 1000;
         saveData();
       }
     }
 
     function clearAllData() {
-      if (confirm("Pura data delete karna hai?")) {
+      if (confirm("Pura data clear karna hai?")) {
         expenses = [];
         saveData();
       }
@@ -134,10 +143,9 @@
     }
 
     function renderAll() {
-      // Totals
       const today = new Date().toISOString().split('T')[0];
-      const todayTotal = expenses.filter(e => e.date === today).reduce((s, e) => s + e.amount, 0);
-      const monthTotal = expenses.filter(e => new Date(e.date).getMonth() === new Date().getMonth()).reduce((s, e) => s + e.amount, 0);
+      const todayTotal = expenses.filter(e => e.date === today).reduce((sum, e) => sum + e.amount, 0);
+      const monthTotal = expenses.filter(e => new Date(e.date).getMonth() === new Date().getMonth()).reduce((sum, e) => sum + e.amount, 0);
 
       document.getElementById('todayTotal').textContent = '₹' + todayTotal;
       document.getElementById('monthTotal').textContent = '₹' + monthTotal;
@@ -145,14 +153,14 @@
 
       // History
       document.getElementById('history').innerHTML = expenses.map(exp => `
-        <div class="bg-white border p-4 rounded-2xl flex justify-between">
+        <div class="bg-white border p-4 rounded-3xl flex justify-between items-center">
           <div>
-            <div>${exp.category}</div>
+            <div class="font-medium">${exp.category}</div>
             <div class="text-xs text-gray-500">${exp.date} ${exp.note ? '• ' + exp.note : ''}</div>
           </div>
           <div class="text-right">
-            <div class="text-xl font-bold text-red-600">-₹${exp.amount}</div>
-            <button onclick="deleteExpense(${exp.id})" class="text-red-500 text-xs">Delete</button>
+            <div class="text-2xl font-bold text-red-600">-₹${exp.amount}</div>
+            <button onclick="deleteExpense(${exp.id})" class="text-red-500 text-xs mt-1">Delete</button>
           </div>
         </div>
       `).join('');
@@ -162,11 +170,16 @@
       if (window.myChartInstance) window.myChartInstance.destroy();
       
       const catData = {};
-      expenses.forEach(e => catData[e.category] = (catData[e.category] || 0) + e.amount);
+      expenses.forEach(e => {
+        catData[e.category] = (catData[e.category] || 0) + e.amount;
+      });
 
       window.myChartInstance = new Chart(ctx, {
         type: 'pie',
-        data: { labels: Object.keys(catData), datasets: [{ data: Object.values(catData), backgroundColor: ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6'] }] },
+        data: {
+          labels: Object.keys(catData),
+          datasets: [{ data: Object.values(catData), backgroundColor: ['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6'] }]
+        },
         options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
       });
     }
